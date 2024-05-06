@@ -3,7 +3,7 @@ const std = @import("std");
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
-    const root_source_file = std.Build.LazyPath.relative("src/Uuid.zig");
+    const root_source_file = b.path("src/Uuid.zig");
 
     // Module
     _ = b.addModule("Uuid", .{ .root_source_file = root_source_file });
@@ -42,7 +42,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .name = "uuid_benchs",
         .optimize = .ReleaseFast,
-        .root_source_file = std.Build.LazyPath.relative("src/bench.zig"),
+        .root_source_file = b.path("src/bench.zig"),
     });
 
     const benchs_run = b.addRunArtifact(benchs);
