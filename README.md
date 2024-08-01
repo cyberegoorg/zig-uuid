@@ -1,60 +1,38 @@
-## :lizard: :id: **zig uuid**
+# zig-uuid
 
-[![CI][ci-shield]][ci-url]
-[![CD][cd-shield]][cd-url]
-[![Docs][docs-shield]][docs-url]
-[![Codecov][codecov-shield]][codecov-url]
-[![License][license-shield]][license-url]
+[![CI][ci-shd]][ci-url]
+[![CD][cd-shd]][cd-url]
+[![DC][dc-shd]][dc-url]
+[![LC][lc-shd]][lc-url]
 
-### Zig implementation of all seven [UUID versions](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-04.html).
+## Zig implementation of [all seven UUID versions](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-04.html).
 
-#### :rocket: Usage
+### :rocket: Usage
 
-1. Add `uuid` as a dependency in your `build.zig.zon`.
+- Add `uuid` dependency to `build.zig.zon`.
 
-    <details>
+```sh
+zig fetch --save https://github.com/tensorush/zig-uuid/archive/<git_tag_or_commit_hash>.tar.gz
+```
 
-    <summary><code>build.zig.zon</code> example</summary>
+- Use `uuid` dependency in `build.zig`.
 
-    ```zig
-    .{
-        .name = "<name_of_your_package>",
-        .version = "<version_of_your_package>",
-        .dependencies = .{
-            .uuid = .{
-                .url = "https://github.com/tensorush/zig-uuid/archive/<git_tag_or_commit_hash>.tar.gz",
-                .hash = "<package_hash>",
-            },
-        },
-    }
-    ```
-
-    Set `<package_hash>` to `12200000000000000000000000000000000000000000000000000000000000000000`, and Zig will provide the correct found value in an error message.
-
-    </details>
-
-2. Add `uuid` as a module in your `build.zig`.
-
-    <details>
-
-    <summary><code>build.zig</code> example</summary>
-
-    ```zig
-    const uuid = b.dependency("uuid", .{});
-    exe.addModule("Uuid", uuid.module("Uuid"));
-    ```
-
-    </details>
+```zig
+const uuid_dep = b.dependency("uuid", .{
+    .target = target,
+    .optimize = optimize,
+});
+const uuid_mod = uuid_dep.module("Uuid");
+<compile>.root_module.addImport("Uuid", uuid_mod);
+```
 
 <!-- MARKDOWN LINKS -->
 
-[ci-shield]: https://img.shields.io/github/actions/workflow/status/tensorush/zig-uuid/ci.yaml?branch=main&style=for-the-badge&logo=github&label=CI&labelColor=black
-[ci-url]: https://github.com/tensorush/zig-uuid/blob/main/.github/workflows/ci.yaml
-[cd-shield]: https://img.shields.io/github/actions/workflow/status/tensorush/zig-uuid/cd.yaml?branch=main&style=for-the-badge&logo=github&label=CD&labelColor=black
-[cd-url]: https://github.com/tensorush/zig-uuid/blob/main/.github/workflows/cd.yaml
-[docs-shield]: https://img.shields.io/badge/click-F6A516?style=for-the-badge&logo=zig&logoColor=F6A516&label=docs&labelColor=black
-[docs-url]: https://tensorush.github.io/zig-uuid
-[codecov-shield]: https://img.shields.io/codecov/c/github/tensorush/zig-uuid?style=for-the-badge&labelColor=black
-[codecov-url]: https://app.codecov.io/gh/tensorush/zig-uuid
-[license-shield]: https://img.shields.io/github/license/tensorush/zig-uuid.svg?style=for-the-badge&labelColor=black
-[license-url]: https://github.com/tensorush/zig-uuid/blob/main/LICENSE.md
+[ci-shd]: https://img.shields.io/github/actions/workflow/status/tensorush/uuid/ci.yaml?branch=main&style=for-the-badge&logo=github&label=CI&labelColor=black
+[ci-url]: https://github.com/tensorush/uuid/blob/main/.github/workflows/ci.yaml
+[cd-shd]: https://img.shields.io/github/actions/workflow/status/tensorush/uuid/cd.yaml?branch=main&style=for-the-badge&logo=github&label=CD&labelColor=black
+[cd-url]: https://github.com/tensorush/uuid/blob/main/.github/workflows/cd.yaml
+[dc-shd]: https://img.shields.io/badge/click-F6A516?style=for-the-badge&logo=zig&logoColor=F6A516&label=doc&labelColor=black
+[dc-url]: https://tensorush.github.io/uuid
+[lc-shd]: https://img.shields.io/github/license/tensorush/uuid.svg?style=for-the-badge&labelColor=black
+[lc-url]: https://github.com/tensorush/uuid/blob/main/LICENSE

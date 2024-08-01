@@ -4,6 +4,7 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
     const root_source_file = b.path("src/Uuid.zig");
+    const version = std.SemanticVersion{ .major = 1, .minor = 2, .patch = 3 };
 
     // Module
     _ = b.addModule("Uuid", .{ .root_source_file = root_source_file });
@@ -12,11 +13,11 @@ pub fn build(b: *std.Build) void {
     const lib_step = b.step("lib", "Install library");
 
     const lib = b.addStaticLibrary(.{
-        .name = "uuid",
+        .name = "Uuid",
         .target = target,
+        .version = version,
         .optimize = optimize,
         .root_source_file = root_source_file,
-        .version = .{ .major = 1, .minor = 2, .patch = 3 },
     });
 
     const lib_install = b.addInstallArtifact(lib, .{});
@@ -39,8 +40,8 @@ pub fn build(b: *std.Build) void {
     const benchs_step = b.step("bench", "Run benchmark suite");
 
     const benchs = b.addExecutable(.{
+        .name = "bench",
         .target = target,
-        .name = "uuid_benchs",
         .optimize = .ReleaseFast,
         .root_source_file = b.path("src/bench.zig"),
     });
@@ -56,6 +57,8 @@ pub fn build(b: *std.Build) void {
     const tests_step = b.step("test", "Run test suite");
 
     const tests = b.addTest(.{
+        .target = target,
+        .version = version,
         .root_source_file = root_source_file,
     });
 
@@ -63,23 +66,16 @@ pub fn build(b: *std.Build) void {
     tests_step.dependOn(&tests_run.step);
     b.default_step.dependOn(tests_step);
 
-    // Code coverage
-    const cov_step = b.step("cov", "Generate code coverage");
-
-    const cov_run = b.addSystemCommand(&.{ "kcov", "--clean", "--include-pattern=src/", "kcov-output" });
-    cov_run.addArtifactArg(tests);
-
-    cov_step.dependOn(&cov_run.step);
-    b.default_step.dependOn(cov_step);
-
     // Formatting checks
     const fmt_step = b.step("fmt", "Run formatting checks");
 
     const fmt = b.addFmt(.{
-        .paths = &.{ "src/", "build.zig" },
+        .paths = &.{
+            "src/",
+            "build.zig",
+        },
         .check = true,
     });
-
     fmt_step.dependOn(&fmt.step);
     b.default_step.dependOn(fmt_step);
 }

@@ -4,13 +4,10 @@ const std = @import("std");
 const Uuid = @import("Uuid.zig");
 
 const HELP =
-    \\uuid_bench [options]
-    \\
-    \\Options:
-    \\  -v <u3>     Provide a specific UUID version (default: 7).
-    \\  -d <string> Set domain name for v3 and v5.
-    \\  -i <usize>  Set the number of iterations.
-    \\  -h          Display this help.
+    \\  -v <u3>         Provide specific UUID version (default: 7).
+    \\  -d <[]const u8> Set domain name in case of v3 or v5.
+    \\  -i <usize>      Set number of iterations.
+    \\  -h              Display help.
     \\
 ;
 
