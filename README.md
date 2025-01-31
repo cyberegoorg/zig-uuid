@@ -7,12 +7,12 @@
 
 ## Zig implementation of [all seven UUID versions](https://www.ietf.org/archive/id/draft-peabody-dispatch-new-uuid-format-04.html).
 
-### :rocket: Usage
+### Usage
 
 - Add `uuid` dependency to `build.zig.zon`.
 
 ```sh
-zig fetch --save https://github.com/tensorush/zig-uuid/archive/<git_tag_or_commit_hash>.tar.gz
+zig fetch --save git+https://github.com/tensorush/zig-uuid#<git_tag_or_commit_hash>
 ```
 
 - Use `uuid` dependency in `build.zig`.

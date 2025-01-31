@@ -167,19 +167,19 @@ pub const V1 = struct {
     /// Number of 100-nanosecond intervals from Gregorian Epoch (1582-10-15T00:00:00Z) to UNIX Epoch (1970-01-01T00:00:00Z).
     pub const NUM_INTERVALS_BEFORE_UNIX = 12_219_292_800 * (std.time.ns_per_s / 100);
 
-    random: std.rand.Random,
+    random: std.Random,
     clock: *Clock,
 
     /// Thread-safe wrapping monotonic clock sequence ticking over 100-nanosecond intervals
     /// and being reinitialized with a pseudo-randomly generated number.
     pub const Clock = struct {
         mutex: std.Thread.Mutex = .{},
-        random: std.rand.Random,
+        random: std.Random,
         timestamp: u60 = 0,
         sequence: u14 = 0,
 
         /// Initializes clock state.
-        pub fn init(random: std.rand.Random) Clock {
+        pub fn init(random: std.Random) Clock {
             return .{ .random = random };
         }
 
@@ -199,7 +199,7 @@ pub const V1 = struct {
     };
 
     /// Initializes UUIDv1 state.
-    pub fn init(clock: *Clock, random: std.rand.Random) V1 {
+    pub fn init(clock: *Clock, random: std.Random) V1 {
         return .{ .clock = clock, .random = random };
     }
 
@@ -247,7 +247,7 @@ pub const V1 = struct {
     }
 
     test "V1" {
-        var prng = std.rand.DefaultPrng.init(0);
+        var prng = std.Random.DefaultPrng.init(0);
         var clock = V1.Clock.init(prng.random());
         const v1 = V1.init(&clock, prng.random());
         const uuid1 = v1.new();
@@ -287,7 +287,7 @@ pub const V2 = struct {
     v1: V1,
 
     /// Initializes UUIDv3 state.
-    pub fn init(clock: *V1.Clock, random: std.rand.Random) V2 {
+    pub fn init(clock: *V1.Clock, random: std.Random) V2 {
         return .{ .v1 = V1.init(clock, random) };
     }
 
@@ -332,7 +332,7 @@ pub const V2 = struct {
     }
 
     test "V2" {
-        var prng = std.rand.DefaultPrng.init(0);
+        var prng = std.Random.DefaultPrng.init(0);
         var clock = V1.Clock.init(prng.random());
         const v2 = V2.init(&clock, prng.random());
         const uuid = v2.new(Domain.person, 12345678);
@@ -379,10 +379,10 @@ pub const V3 = struct {
 
 /// UUIDv4 created from a pseudo-randomly generated number.
 pub const V4 = struct {
-    random: std.rand.Random,
+    random: std.Random,
 
     /// Initializes UUIDv4 state.
-    pub fn init(random: std.rand.Random) V4 {
+    pub fn init(random: std.Random) V4 {
         return .{ .random = random };
     }
 
@@ -398,7 +398,7 @@ pub const V4 = struct {
     }
 
     test "V4" {
-        var prng = std.rand.DefaultPrng.init(0);
+        var prng = std.Random.DefaultPrng.init(0);
         var v4 = V4.init(prng.random());
         const uuid1 = v4.new();
         const uuid2 = v4.new();
@@ -503,7 +503,7 @@ pub const V6 = struct {
     }
 
     test "fromV1" {
-        var prng = std.rand.DefaultPrng.init(0);
+        var prng = std.Random.DefaultPrng.init(0);
         var clock = V1.Clock.init(prng.random());
         const v1 = V1.init(&clock, prng.random());
         const uuid_v1 = v1.new();

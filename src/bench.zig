@@ -72,7 +72,7 @@ pub fn main() !void {
         }
     }
 
-    var prng = std.rand.DefaultPrng.init(0);
+    var prng = std.Random.DefaultPrng.init(0);
     const random = prng.random();
 
     var clock: Uuid.V1.Clock = if (ver == 3 or ver == 5) Uuid.V1.Clock.init(random) else undefined;

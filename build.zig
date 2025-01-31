@@ -4,7 +4,7 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
     const root_source_file = b.path("src/Uuid.zig");
-    const version = std.SemanticVersion{ .major = 1, .minor = 2, .patch = 3 };
+    const version = std.SemanticVersion{ .major = 1, .minor = 2, .patch = 4 };
 
     // Module
     _ = b.addModule("Uuid", .{ .root_source_file = root_source_file });
